@@ -62,10 +62,17 @@ export function BillingTable({ valuation }: { valuation: ValuationData[] }) {
   const [propertyTypeFilter, setPropertyTypeFilter] = useState("all")
   const [paymentStatusFilter, setPaymentStatusFilter] = useState("all")
   const [selectedValuation, setSelectedValuation] = useState<ValuationData | null>(null)
+  const [billsGenerated, setBillsGenerated] = useState(false)
+  const [valuationData, setValuationData] = useState<ValuationData[]>(
+    valuation.map(item => ({
+      ...item,
+      tax_amt: "0" // Initialize tax amount as 0
+    }))
+  )
   const router = useRouter()
 
   // Filter valuations based on search query and filters
-  const filteredValuations = valuation.filter((item) => {
+  const filteredValuations = valuationData.filter((item) => {
     // Search filter
     const matchesSearch =
       item.valuation_no.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -144,6 +151,39 @@ export function BillingTable({ valuation }: { valuation: ValuationData[] }) {
               <SelectItem value="industrial">Industrial</SelectItem>
             </SelectContent>
           </Select>
+          <Button 
+            variant="default" 
+            className="bg-primary text-white"
+            onClick={() => {
+              // Calculate tax amount for all properties
+              const updatedValuations = valuationData.map(item => {
+                const valuationAmount = parseFloat(item.valuation_amt);
+                const units = item.units;
+                const duration = item.duration;
+                const taxRate = parseFloat(item.tax_rate);
+                
+                // Calculate tax amount = (unit * duration * valuation amount) * tax rate / 100
+                const calculatedTaxAmount = (units * duration * valuationAmount) * taxRate / 100;
+                
+                return {
+                  ...item,
+                  tax_amt: calculatedTaxAmount.toFixed(2)
+                };
+              });
+              
+              // Update the state with the new calculated values
+              setValuationData(updatedValuations);
+              setBillsGenerated(true);
+              
+              // In a real app, you would save this to the database
+              console.log("Generated bills with calculated tax amounts:", updatedValuations);
+              
+              // Show a success message
+              alert("Bills generated successfully!");
+            }}
+          >
+            <FileText className="mr-2 h-4 w-4" /> Generate Bills
+          </Button>
         </div>
       </div>
 
@@ -172,10 +212,12 @@ export function BillingTable({ valuation }: { valuation: ValuationData[] }) {
                 <TableHead>Valuation No</TableHead>
                 <TableHead>Property No</TableHead>
                 <TableHead>Property Type</TableHead>
+                <TableHead>Unit Type</TableHead>
                 <TableHead>Valuation Amount</TableHead>
+                <TableHead>Duration</TableHead>
+                <TableHead>No. of Units</TableHead>
                 <TableHead>Tax Rate (%)</TableHead>
                 <TableHead>Tax Amount</TableHead>
-                <TableHead>Unit Type</TableHead>
                 <TableHead className="text-right">Actions</TableHead>
               </TableRow>
             </TableHeader>
@@ -192,10 +234,15 @@ export function BillingTable({ valuation }: { valuation: ValuationData[] }) {
                     <TableCell>
                       {getPropertyTypeBadge(item.property_type)}
                     </TableCell>
-                    <TableCell>{formatCurrency(item.valuation_amt)}</TableCell>
-                    <TableCell>{item.tax_rate}%</TableCell>
-                    <TableCell className="font-medium">{formatCurrency(item.tax_amt)}</TableCell>
-                    <TableCell className="capitalize">{item.data_typeInfo.toLowerCase()}</TableCell>
+                    <TableCell>{item.data_typeInfo}</TableCell>
+                    <TableCell>{(item.valuation_amt)}</TableCell>
+                    <TableCell>{(item.duration)}</TableCell>
+                    <TableCell>{(item.units)}</TableCell>
+                    <TableCell>{(item.tax_rate)}%</TableCell>
+                    <TableCell className="font-medium">
+                      {billsGenerated ? (item.tax_amt) : "0"}
+                    </TableCell>
+                    {/* <TableCell className="capitalize">{item.data_typeInfo.toLowerCase()}</TableCell> */}
                     <TableCell className="text-right">
                       <DropdownMenu>
                         <DropdownMenuTrigger asChild onClick={(e) => e.stopPropagation()}>
@@ -274,7 +321,9 @@ export function BillingTable({ valuation }: { valuation: ValuationData[] }) {
                   </div>
                   <div className="flex justify-between items-center mb-4">
                     <span className="text-sm text-muted-foreground">Tax Amount:</span>
-                    <span className="font-medium">{formatCurrency(item.tax_amt)}</span>
+                    <span className="font-medium">
+                      {billsGenerated ? formatCurrency(item.tax_amt) : formatCurrency("0")}
+                    </span>
                   </div>
                   <div className="flex justify-between items-center">
                     <div className="flex items-center gap-2">
@@ -358,7 +407,9 @@ export function BillingTable({ valuation }: { valuation: ValuationData[] }) {
                 <span>Total Tax</span>
                 <span className="font-medium">
                   {formatCurrency(
-                    valuation.reduce((sum, p) => sum + parseFloat(p.tax_amt), 0)
+                    billsGenerated 
+                      ? valuationData.reduce((sum, p) => sum + parseFloat(p.tax_amt), 0)
+                      : 0
                   )}
                 </span>
               </div>
