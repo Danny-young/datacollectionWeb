@@ -238,7 +238,7 @@ export function BillingTable({ valuation }: { valuation: ValuationData[] }) {
                     <TableCell>{(item.valuation_amt)}</TableCell>
                     <TableCell>{(item.duration)}</TableCell>
                     <TableCell>{(item.units)}</TableCell>
-                    <TableCell>{(item.tax_rate)}%</TableCell>
+                    <TableCell>{item.tax_rate}%</TableCell>
                     <TableCell className="font-medium">
                       {billsGenerated ? (item.tax_amt) : "0"}
                     </TableCell>

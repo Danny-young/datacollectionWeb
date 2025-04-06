@@ -205,8 +205,6 @@ import { Badge } from "@/components/ui/badge"
                   properties_collected: number;
                   status: string;
                   created_at: string;
-                  phone_number: string;
-                  role: string;
                 }) => (
                   <TableRow
                     key={agent.id}

@@ -484,7 +484,7 @@ export default function PropertiesPage({ property }: { property: Property[] }) {
                           <DropdownMenuItem
                             onClick={(e) => {
                               e.stopPropagation()
-                              router.push(`/property/${property.id}`)
+                              router.push(`/dashboard/datacollection/${property.id}`)
                             }}
                           >
                             View Details

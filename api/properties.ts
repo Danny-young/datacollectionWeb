@@ -1,31 +1,14 @@
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
+
+
 export async function billing() {      
-  try {
-    const res = await fetch(`${API_URL}/properties`);
-    const data = await res.json();
-    
-    // Transform the data to match the ValuationData interface if needed
-    const transformedData = data.map((item: any) => ({
-      id: item.id,
-      valuation_no: item.valuation_no || `VAL-${item.id}`,
-      valuation_amt: item.valuation_amt || "0",
-      property_no: item.property_no || `PROP-${item.id}`,
-      duration: item.duration || 12,
-      property_type: item.property_type || "residential",
-      units: item.units || 1,
-      tax_rate: item.tax_rate || "1.5",
-      tax_amt: item.tax_amt || "0",
-      data_typeInfo: item.data_typeInfo || "house",
-      createdAt: item.createdAt || new Date().toISOString()
-    }));
-    
-    return transformedData;
-  } catch (error) {
-    console.error("Error fetching billing data:", error);
-    // Return empty array as fallback
-    return [];
-  }
+  // console.log(`${API_URL}/agents`);
+//console.log(`listing to agents list`);
+   const res = await fetch(`${API_URL}/properties`);
+   const data = await res.json();
+   console.log(data);
+   return data;
 } 
 
 // export const propertiesdata = async (data: PropertyDetail) => {
