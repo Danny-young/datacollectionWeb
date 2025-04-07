@@ -57,8 +57,7 @@ const MapComponent: React.FC<MapComponentProps> = ({ property }) => {
       return;
     }
 
-    // Set the token
-    // @ts-ignore - Ignoring the read-only property error
+ 
     mapboxgl.accessToken = mapboxToken;
 
     // Debug coordinate information

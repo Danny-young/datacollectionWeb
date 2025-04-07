@@ -60,7 +60,7 @@ export function BillingTable({ valuation }: { valuation: ValuationData[] }) {
   const [viewMode, setViewMode] = useState<"list" | "grid">("list")
   const [searchQuery, setSearchQuery] = useState("")
   const [propertyTypeFilter, setPropertyTypeFilter] = useState("all")
-  const [paymentStatusFilter, setPaymentStatusFilter] = useState("all")
+ // const [paymentStatusFilter, setPaymentStatusFilter] = useState("all")
   const [selectedValuation, setSelectedValuation] = useState<ValuationData | null>(null)
   const [billsGenerated, setBillsGenerated] = useState(false)
   const [valuationData, setValuationData] = useState<ValuationData[]>(

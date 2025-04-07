@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import { useRouter } from "next/navigation"
-import { Search, Plus, MoreHorizontal, Grid, List, Phone, Mail, MapPin, Filter, Link } from "lucide-react"
+import { Search, Plus, MoreHorizontal, Grid, List, Phone, Mail, MapPin, Filter } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
