@@ -1,5 +1,5 @@
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
-
+export const revalidate = 30; 
 export async function datacollected() {      
   // console.log(`${API_URL}/agents`);
 //console.log(`listing to agents list`);
