@@ -1,6 +1,6 @@
 import { datacollected } from "@/api/datacollection"
 import MapComponent from "./mapList"
-export const revalidate = 60; // Revalidate every 60 seconds
+export const revalidate = 30; // Revalidate every 60 seconds
 export default async function MapPage() {
   try {
     const properties = await datacollected()
