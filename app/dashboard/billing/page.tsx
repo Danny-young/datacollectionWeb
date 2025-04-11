@@ -1,6 +1,6 @@
 import { BillingTable } from "./billingdata"
 import { billing } from "@/api/properties"
-
+export const revalidate = 60; // Revalidate every 60 seconds
 // This would typically come from an API
 // const mockValuationData = [
 //   {

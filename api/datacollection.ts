@@ -55,7 +55,7 @@ export async function datacollected() {
       const response = await fetch(`${API_URL}/electoralarea`);
       const data = await response.json();
       return data;
-    } catch (error) {
+    } catch {
       throw new Error('Failed to fetch electoralarea');
     }
   };
@@ -65,7 +65,7 @@ export async function datacollected() {
       const response = await fetch(`${API_URL}/localities`);
       const data = await response.json();
       return data;
-    } catch (error) {
+    } catch {
       throw new Error('Failed to fetch localities');
     }
   };
@@ -74,28 +74,42 @@ export async function datacollected() {
     try {
       // First get the electoral area data
       const electoralAreaResponse = await fetch(`${API_URL}/electoralarea`);
-      const electoralAreas = await electoralAreaResponse.json();
+      interface ElectoralArea {
+        id: string;
+        municipalities: string;
+      }
+      const electoralAreas: ElectoralArea[] = await electoralAreaResponse.json();
       
       // Find the electoral area ID for the selected municipality
       const selectedArea = electoralAreas.find(
-        (area: any) => area.municipalities === municipality
+        (area: ElectoralArea) => area.municipalities === municipality
       );
 
       if (!selectedArea) {
         throw new Error('Municipality not found');
       }
+      interface Locality {
+        electoralAreaId: string;
+        // Add other properties of Locality if needed
+      }
+        // Removed the unused expression
 
       // Then fetch localities using the electoral area ID
       const localitiesResponse = await fetch(`${API_URL}/localities`);
       const allLocalities = await localitiesResponse.json();
       
       // Filter localities that match the electoral area ID
+      interface Locality {
+        electoralAreaId: string;
+        // Add other properties of Locality if needed
+      }
+
       const filteredLocalities = allLocalities.filter(
-        (locality: any) => locality.electoralAreaId === selectedArea.id
+        (locality: Locality) => locality.electoralAreaId === selectedArea.id
       );
 
       return filteredLocalities;
-    } catch (error) {
+    } catch {
       throw new Error(`Failed to fetch localities for municipality: ${municipality}`);
     }
   };

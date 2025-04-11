@@ -88,7 +88,20 @@ import { Badge } from "@/components/ui/badge"
 //   ]
 
 
-  export default function AgentsListPage( {agent}: {agent: any}) {
+  interface Agent {
+    id: string;
+    name: string;
+    email: string;
+    user_name: string;
+    phone_number: string;
+    created_at: string;
+    role: string;
+    electoral_area: string;
+    properties_collected: number;
+    status: string;
+  }
+  
+  export default function AgentsListPage({ agent }: { agent: Agent[] }) {
     const [viewMode, setViewMode] = useState<"list" | "grid">("list")
     const [searchQuery, setSearchQuery] = useState("")
     const router = useRouter()
@@ -261,7 +274,7 @@ import { Badge } from "@/components/ui/badge"
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-            {agent.map((agent: any) => (
+            {agent.map((agent: Agent) => (
               <Card
                 key={agent.id}
                 className="cursor-pointer hover:shadow-md transition-shadow"

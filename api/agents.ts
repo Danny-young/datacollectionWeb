@@ -34,7 +34,7 @@ export interface UpdateAgentData {
       });
   
       if (!res.ok) {
-        const errorData = await res.json();
+        await res.json();
       }
   
       const responseData = await res.json();

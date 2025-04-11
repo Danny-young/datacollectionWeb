@@ -15,7 +15,7 @@ export default async function DataCollectionDetailPage({ params }: { params: { i
     const properties = await datacollected();
     
     // Find the specific property by ID
-    const property = properties.find((p: any) => p.id === parseInt(params.id)) || {
+    const property = properties.find((p: { id: number }) => p.id === parseInt(params.id)) || {
       // Provide default values if property is not found
       valuation_no: "Not found",
       data_type_info: "Unknown",
