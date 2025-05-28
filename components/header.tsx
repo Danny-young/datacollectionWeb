@@ -54,7 +54,7 @@ export function Header() {
             href="/dashboard/billing"
             className={isActive("/dashboard/billing") ? "font-medium" : "text-muted-foreground hover:text-foreground"}
           >
-            Reports
+            Billing
           </Link>
         </nav>
 

@@ -9,6 +9,21 @@ export async function datacollected() {
    return data;
 } 
 
+
+
+export async function propertiesfetch(valuationNumber: string) {      
+  // console.log(`${API_URL}/agents`);
+//console.log(`listing to agents list`);
+   const res = await fetch(`${API_URL}/properties/${valuationNumber}`);
+   if (!res.ok) {
+     const errorData = await res.json().catch(() => ({}));
+     console.error("Error response data:", errorData);
+     throw new Error(`HTTP error! status: ${res.status}, message: ${errorData.message || 'Unknown error'}`);
+   }
+   const data = await res.json();
+   console.log(data);
+   return data;
+} 
 // export const collectiondata = async (data: FormDataType) => {
 //   try {
 //     console.log('Sending data:', data); // Log the data being sent

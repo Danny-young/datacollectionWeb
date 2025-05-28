@@ -11,6 +11,28 @@ export async function billing() {
    return data;
 } 
 
+export async function unBilled() {      
+  // console.log(`${API_URL}/agents`);
+//console.log(`listing to agents list`);
+   const res = await fetch(`${API_URL}/properties/unbilled-properties`);
+   const data = await res.json();
+   console.log(data);
+   return data;
+} 
+
+// api/properties.ts
+export async function getPropertyByValuationNumber(valuationNumber: string) {
+   // Add a slash between "valuation" and the valuation number
+   const res = await fetch(`${API_URL}/properties/valuation/${valuationNumber}`);
+   
+   if (!res.ok) {
+      throw new Error(`Failed to fetch property: ${res.status} ${res.statusText}`);
+   }
+   
+   const data = await res.json();
+   console.log(data);
+   return data;
+}
 // export const propertiesdata = async (data: PropertyDetail) => {
 //   try {
 //     console.log('Sending property data:', data); // Log the data being sent

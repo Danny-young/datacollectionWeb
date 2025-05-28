@@ -52,10 +52,13 @@ export async function register(name: string, email: string, phone_number: string
       AgentCode: data.AgentCode,
       temporaryPassword: data.temporaryPassword
     };
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Registration Error:', error);
-    // Preserve the error message from the backend
-    throw new Error(error.message || 'Registration failed');
+    if (error instanceof Error) {
+      // Preserve the error message from the backend
+      throw new Error(error.message || 'Registration failed');
+    }
+    throw new Error('Registration failed');
   }
 }
 

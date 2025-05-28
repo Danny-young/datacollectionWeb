@@ -24,7 +24,7 @@ interface Property {
   locality: string;
   street_name: string;
   valuation_no: string;
-  geolocation: {
+    geolocation: {
     longitude: string | number;
     latitude: string | number;
     accuracy: string;
